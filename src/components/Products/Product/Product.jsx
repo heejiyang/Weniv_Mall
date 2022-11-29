@@ -31,10 +31,8 @@ const Product = ({ data, onClickLikeBtn }) => {
         <img src={isLike ? onheartIcon : heartIcon} alt="찜 아이콘" />
       </button>
       <p>
-        <strong>
-          {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </strong>{" "}
-        원
+        <strong>{(price * 0.01 * (100-discountRate)).toLocaleString()}
+        </strong> 원
         {!!discountRate && (
           <>
             <span className="discount">{price}원</span>

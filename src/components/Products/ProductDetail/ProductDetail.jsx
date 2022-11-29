@@ -6,13 +6,14 @@ import heartImg from "../../../asset/icon-heart.svg";
 import heartOnImg from "../../../asset/icon-heart-on.svg";
 
 const ProductDetail = ({ locationData }) => {
-  const [data, setData] = useState();
+  const [productData, setProductData] = useState();
   const [count, setCount] = useState(1);
+  // isLike를 false로 두고 onClick될때마다 true로 바뀌도록
   const [isLike, setIsLike] = useState(false);
 
   useEffect(() => {
     if (locationData) {
-      setData(() => {
+      setProductData(() => {
         return { ...locationData.state.data };
       });
     }
@@ -20,7 +21,7 @@ const ProductDetail = ({ locationData }) => {
 
   const onClickCountHandler = (type) => {
     if (type === "increment") {
-      if (data.stockCount > count) {
+      if (productData.stockCount > count) {
         setCount((prev) => prev + 1);
       }
     } else {
@@ -33,18 +34,18 @@ const ProductDetail = ({ locationData }) => {
   return (
     <ProductDetailWrapper>
       <h2 className="hidden">상품 가격 및 정보</h2>
-      {data && (
+      {productData && (
         <div className="detail-main">
           <img
-            src={`https://test.api.weniv.co.kr/${data.thumbnailImg}`}
+            src={`https://test.api.weniv.co.kr/${productData.thumbnailImg}`}
             alt=""
           />
           <ul>
-            <li className="product-title">{data.productName}</li>
+            <li className="product-title">{productData.productName}</li>
             <li className="product-price">
-              <strong>{data.price}</strong> 원
+              <strong>{productData.price}</strong> 원
             </li>
-            <li className="delivery">택배배송 / {data.shippingFee}원</li>
+            <li className="delivery">택배배송 / {productData.shippingFee}원</li>
             <li className="quantity">
               <div className="quantity-btn-box">
                 <button onClick={() => onClickCountHandler("decrement")}>
@@ -64,9 +65,10 @@ const ProductDetail = ({ locationData }) => {
               </span>
               <span className="result-price">
                 <strong>
-                  {(data.price * count)
+                  {((productData.price * 0.01 * (100-productData.discountRate))*count).toLocaleString()}
+                  {/* {(data.price * count)
                     .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} */}
                 </strong>
                 원
               </span>
